@@ -2,17 +2,14 @@ import logging
 
 import azure.functions as func
 
-from azure.storage.blob import BlobClient
+from azure.storage.blob import BlobServiceClient
 
 
 def main(req: func.HttpRequest) -> func.HttpResponse:
     logging.info('Python HTTP trigger function processed a request.')
 
-    blob_client = BlobClient.from_blob_url("copy your Blob SAS URL here")
-    download_stream = blob_client.download_blob()
-    logging.info('=========below is content of test1')
-    logging.info(download_stream.readall())
-    logging.info('=========above is content of test1')
+    service = BlobServiceClient(account_url="https://<my-storage-account-name>.blob.core.windows.net/",
+                                credential="")
 
     name = req.params.get('name')
     if not name:
